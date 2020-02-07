@@ -4,11 +4,14 @@ import android.content.Context;
 
 import com.example.wct.MapsActivity;
 import com.example.wct.pojo.Crime;
+import com.example.wct.pojo.Crimes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SortCrimesUtil {
+
+    Crimes crimes = Crimes.getInstance();
 
     public void sortCrimesIntoStreets(List<Crime> crimes, Context context){
         List<List<Crime>> sortedCrimes = new ArrayList<>();
@@ -32,7 +35,7 @@ public class SortCrimesUtil {
             }
         }
         print(sortedCrimes);
-
+        this.crimes.setCrimes(sortedCrimes);
         ((MapsActivity)context).update(sortedCrimes);
     }
     public void print(List<List<Crime>> sortedCrimes){
