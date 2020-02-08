@@ -4,8 +4,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.wct.pojo.Crime;
+import com.example.wct.pojo.CurrentAddress;
 import com.example.wct.util.DateUtil;
 import com.example.wct.util.HttpGet;
+import com.example.wct.util.LatitudeAndLongitudeUtil;
+import com.example.wct.util.Print;
 import com.example.wct.util.SortCrimesUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,43 +16,48 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetUKCrime extends AsyncTask<String, String, String> {
+public class GetUKCrime extends AsyncTask<Boolean, String, Boolean> {
 
     private List<Crime> crimes = new ArrayList<>();
     private DateUtil dateUtil = DateUtil.getInstance();
     private SortCrimesUtil sortCrimesUtil = new SortCrimesUtil();
     private Context context;
+    private CurrentAddress currentAddress = CurrentAddress.getInstance();
+    private LatitudeAndLongitudeUtil latitudeAndLongitudeUtil = LatitudeAndLongitudeUtil.getInstance();
 
     public GetUKCrime(Context context){
         this.context = context;
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected Boolean doInBackground(Boolean... params) {
         HttpGet httpGet = new HttpGet();
-        String url = "https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=" + dateUtil.getYear() + "-" + getMonthAsString();
-        System.out.println(url);
+        String url;
+        if(params[0]) {
+            url = "https://data.police.uk/api/crimes-street/all-crime?lat=" + currentAddress.getGeocodeLookup().getLat() + "&lng=" + currentAddress.getGeocodeLookup().getLon() + "&date=" + dateUtil.getYear() + "-" + getMonthAsString();
+        }
+        else{
+            url = "https://data.police.uk/api/crimes-street/all-crime?lat=" + latitudeAndLongitudeUtil.getLatLng().latitude + "&lng=" + latitudeAndLongitudeUtil.getLatLng().longitude + "&date=" + dateUtil.getYear() + "-" + getMonthAsString();
+        }
+        new Print().printUrl(url);
+
         String json = httpGet.getJSONFromUrl(url);
-        if(json == null)return null;
+        if(json == null)return params[0];
+
         ObjectMapper mapper = new ObjectMapper();
         try {
             crimes = mapper.readValue(json, new TypeReference<List<Crime>>() {});
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(crimes == null){
-            System.out.println("CRIMES:::::::0");
-            return null;
-        }
-        System.out.println("CRIMES:::::::" + crimes.size());
-        return null;
+        return params[0];
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(Boolean param) {
         if(crimes == null || crimes.size() == 0){
             dateUtil.minusOneMonth();
-            new GetUKCrime(context).execute();
+            new GetUKCrime(context).execute(param);
         }else {
             sortCrimesUtil.sortCrimesIntoStreets(crimes, context);
         }

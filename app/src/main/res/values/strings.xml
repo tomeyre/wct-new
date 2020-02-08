@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">WCT</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="geoKey">0194ce713f11d6</string>
 </resources>

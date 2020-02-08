@@ -76,15 +76,6 @@ public class MapUpdate {
             }
         }
 
-//        if (isMyLocation) {
-//            mMap.addMarker(new MarkerOptions().position(latLng.getLatLng())
-//                    .title("Your Location"));
-//        } else {
-//            mMap.addMarker(new MarkerOptions().position(latLng.getLatLng())
-//                    .title("Search Location"));
-//        }
-
-
         if (crimes.isEmpty()) {
             Toast.makeText(context.getApplicationContext(), "No crimes found...",
                     Toast.LENGTH_SHORT).show();

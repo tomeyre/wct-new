@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#3D82F8</color>
 
     <color name="color1">#00ff40</color>
     <color name="color2">#00ff00</color>
@@ -15,7 +15,44 @@
     <color name="color9">#ff4000</color>
     <color name="color10">#ff0000</color>
 
+    <color name="other">#80ffff00</color>
+    <color name="nonViolent">#80ffbf00</color>
+    <color name="violent">#80ff0000</color>
 
+    <color name="transparentBlack">#90000000</color>
+    <color name="black">#000000</color>
+    <color name="grey">#eeeeee</color>
     <color name="white">#ffffff</color>
     <color name="whiteFaded">#40ffffff</color>
+    <color name="blue">#3D82F8</color>
+
+    <color name="link">#3DCFFF</color>
+
+
+    <color name="red">#FA5858</color>
+    <color name="green">#74DF00</color>
+    <color name="yellow">#D7DF01</color>
+
+    <color name="one">#0d47a1</color>
+    <color name="two">#66bb6a</color>
+    <color name="three">#ed0000</color>
+    <color name="four">#2e7d32</color>
+    <color name="five">#bdbdbd</color>
+    <color name="six">#911eb4</color>
+    <color name="seven">#808080</color>
+    <color name="eight">#e6beff</color>
+    <color name="nine">#4fc3f7</color>
+    <color name="ten">#ffab91</color>
+    <color name="eleven">#a04000</color>
+    <color name="twelve">#ffeb3b</color>
+    <color name="thirteen">#aaffc3</color>
+    <color name="fourteen">#f032e6</color>
+
+    <color name="fifteen">#800000</color>
+    <color name="sixteen">#aaffc3</color>
+    <color name="seventeen">#808000</color>
+    <color name="eighteen">#ffd8b1</color>
+    <color name="nineteen">#000080</color>
+    <color name="twenty">#808080</color>
+    <!--https://htmlcolorcodes.com/color-chart/ yellow next row 4-->
 </resources>
