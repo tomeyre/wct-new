@@ -5,6 +5,7 @@ import java.util.List;
 public class Crimes {
 
     List<List<Crime>> crimes;
+    List<List<Crime>> fullCrimeList;
 
     private static final Crimes ourInstance = new Crimes();
 
@@ -21,5 +22,14 @@ public class Crimes {
 
     public void setCrimes(List<List<Crime>> crimes) {
         this.crimes = crimes;
+    }
+
+    public void setFullCrimeList(List<List<Crime>> crimes) {
+        this.crimes = crimes;
+        this.fullCrimeList = crimes;
+    }
+
+    public void resetCrimes(){
+        crimes = fullCrimeList;
     }
 }

@@ -27,7 +27,7 @@ public class SearchLookup extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String url = "https://eu1.locationiq.com/v1/search.php?key=" + context.getResources().getString(R.string.geoKey) + "&q=Lincoln%20UK&format=json";
+        String url = "https://eu1.locationiq.com/v1/search.php?key=" + context.getResources().getString(R.string.geoKey) + "&q=" + strings[0] + "&format=json";
         String json = new HttpGet().getJSONFromUrl(url);
         new Print().printUrl(url);
 

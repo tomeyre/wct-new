@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.example.wct.MapsActivity;
 import com.example.wct.R;
 import com.example.wct.pojo.Crime;
+import com.example.wct.pojo.Crimes;
+import com.example.wct.pojo.Filter;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,8 +31,9 @@ public class MapUpdate {
 
     private DateUtil dateUtil = DateUtil.getInstance();
     private ArrayList<WeightedLatLng> weightedLatLngs;
+    private Crimes crimes = Crimes.getInstance();
 
-    public void addNewMarkers(final List<List<Crime>> crimes, Context context, GoogleMap mMap) {
+    public void addNewMarkers(Context context, GoogleMap mMap) {
         List<Marker> markers = new ArrayList<>();
         try {
             mMap.clear();
@@ -45,38 +48,38 @@ public class MapUpdate {
 
         weightedLatLngs = new ArrayList<>();
 
-        for (int i = 0; i < crimes.size(); i++) {
+        for (int i = 0; i < crimes.getCrimes().size(); i++) {
             try {
-                int mapColour = crimes.get(i).size();
-                String streetName = new StringUtil().getString(crimes.get(i).get(0).getLocation().getStreet().getName());
+                int mapColour = crimes.getCrimes().get(i).size();
+                String streetName = new StringUtil().getString(crimes.getCrimes().get(i).get(0).getLocation().getStreet().getName());
 
                 LayoutInflater inflater = (LayoutInflater) context
                         .getSystemService(((MapsActivity) context).LAYOUT_INFLATER_SERVICE);
 
                 if (mapColour < 100) {
                     View v = inflater.inflate(R.layout.custom_map_marker, null);
-                    weightedLatLngs.add(new WeightedLatLng(new LatLng(crimes.get(i).get(0).getLocation().getLatitude(), crimes.get(i).get(0).getLocation().getLongitude()), crimes.get(i).size()));
+                    weightedLatLngs.add(new WeightedLatLng(new LatLng(crimes.getCrimes().get(i).get(0).getLocation().getLatitude(), crimes.getCrimes().get(i).get(0).getLocation().getLongitude()), crimes.getCrimes().get(i).size()));
                     markers.add(mMap.addMarker(new MarkerOptions()
                             .title(streetName)
-                            .position(new LatLng(crimes.get(i).get(0).getLocation().getLatitude(), crimes.get(i).get(0).getLocation().getLongitude()))
+                            .position(new LatLng(crimes.getCrimes().get(i).get(0).getLocation().getLatitude(), crimes.getCrimes().get(i).get(0).getLocation().getLongitude()))
                             .icon(BitmapDescriptorFactory.fromBitmap(new BitmapGenerator().getMarkerBitmapFromView(mapColour, v, context)))));
                     mMap.setOnMarkerClickListener(((MapsActivity) context));
                 } else {
                     View bigV = inflater.inflate(R.layout.custom_map_marker_big, null);
-                    weightedLatLngs.add(new WeightedLatLng(new LatLng(crimes.get(i).get(0).getLocation().getLatitude(), crimes.get(i).get(0).getLocation().getLongitude()), 100));
+                    weightedLatLngs.add(new WeightedLatLng(new LatLng(crimes.getCrimes().get(i).get(0).getLocation().getLatitude(), crimes.getCrimes().get(i).get(0).getLocation().getLongitude()), 100));
                     markers.add(mMap.addMarker(new MarkerOptions()
                             .title(streetName)
-                            .position(new LatLng(crimes.get(i).get(0).getLocation().getLatitude(), crimes.get(i).get(0).getLocation().getLongitude()))
+                            .position(new LatLng(crimes.getCrimes().get(i).get(0).getLocation().getLatitude(), crimes.getCrimes().get(i).get(0).getLocation().getLongitude()))
                             .icon(BitmapDescriptorFactory.fromBitmap(new BitmapGenerator().getMarkerBitmapFromView(mapColour, bigV, context)))));
                     mMap.setOnMarkerClickListener(((MapsActivity) context));
                 }
-                Log.i("MAP COLOR ", "" + mapColour + " / MAP LOCATION " + crimes.get(i).get(0).getLocation().getStreet().getName() + " / " + crimes.get(i).get(0).getLocation().getLatitude() + crimes.get(i).get(0).getLocation().getLongitude());
+                Log.i("MAP COLOR ", "" + mapColour + " / MAP LOCATION " + crimes.getCrimes().get(i).get(0).getLocation().getStreet().getName() + " / " + crimes.getCrimes().get(i).get(0).getLocation().getLatitude() + crimes.getCrimes().get(i).get(0).getLocation().getLongitude());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        if (crimes.isEmpty()) {
+        if (crimes.getCrimes().isEmpty()) {
             Toast.makeText(context.getApplicationContext(), "No crimes found...",
                     Toast.LENGTH_SHORT).show();
         } else
@@ -115,4 +118,5 @@ public class MapUpdate {
 //        }
 //        screenEnabled=tr();
     }
+
 }

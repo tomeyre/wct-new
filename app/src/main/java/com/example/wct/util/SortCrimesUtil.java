@@ -16,6 +16,7 @@ public class SortCrimesUtil {
     public void sortCrimesIntoStreets(List<Crime> crimes, Context context){
         List<List<Crime>> sortedCrimes = new ArrayList<>();
         for(Crime crime : crimes){
+            crime.getLocation().getStreet().setName(crime.getLocation().getStreet().getName().replace("On or near ",""));
             if(sortedCrimes == null || sortedCrimes.isEmpty()){
                 List<Crime> crimeList = new ArrayList<>();
                 crimeList.add(crime);
@@ -35,8 +36,8 @@ public class SortCrimesUtil {
             }
         }
         print(sortedCrimes);
-        this.crimes.setCrimes(sortedCrimes);
-        ((MapsActivity)context).update(sortedCrimes);
+        this.crimes.setFullCrimeList(sortedCrimes);
+        ((MapsActivity)context).update();
     }
     public void print(List<List<Crime>> sortedCrimes){
         for(List<Crime> crimeList : sortedCrimes){

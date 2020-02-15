@@ -1,0 +1,201 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/filterRl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:visibility="gone">
+
+        <ScrollView
+            android:layout_alignParentTop="true"
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/filterBtn">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <Switch
+                    android:id="@+id/switchASB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Anti Social Behaviour "
+                    android:textSize="23sp" />
+
+
+                <Switch
+                    android:id="@+id/switchPO"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchASB"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Public Order "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchBT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchPO"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Bicycle Theft "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchOT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchBT"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Other Theft "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchOT"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Burglary "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchR"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchB"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Robbery "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchR"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Shoplifting "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchTFTP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchS"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Theft From The Person "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchCDA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchTFTP"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Criminal Damanage Arson "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchCDA"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Drugs "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchPOW"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchD"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Possession Of Weapons "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchVC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchPOW"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Vehicle Crime "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchVIC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchVC"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Violent Crime "
+                    android:textSize="23sp" />
+
+                <Switch
+                    android:id="@+id/switchOC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchVIC"
+                    android:layout_margin="4dp"
+                    android:checked="true"
+                    android:text="Other Crime "
+                    android:textSize="23sp" />
+            </RelativeLayout>
+        </ScrollView>
+
+        <Button
+            android:textColor="@color/white"
+            android:background="@color/blue"
+            android:id="@+id/filterBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="filter"
+            android:textSize="18sp" />
+
+        <Button
+            android:textColor="@color/white"
+            android:background="@color/blue"
+            android:id="@+id/resetBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="reset"
+            android:textSize="18sp" />
+
+        <Button
+            android:textColor="@color/white"
+            android:background="@color/blue"
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="search"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

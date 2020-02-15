@@ -22,4 +22,6 @@ public class Location {
     public Street getStreet() {
         return street;
     }
+
+
 }

@@ -1,29 +1,85 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.wct.MapsActivity">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/streetView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        app:cardBackgroundColor="@color/blue"
-        >
+        android:layout_margin="10dp"
+        app:cardCornerRadius="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        app:cardBackgroundColor="@color/white"
+        android:id="@+id/burgerMenu"
+        android:layout_width="50dp"
+        android:translationZ="1dp"
+        android:layout_height="50dp">
 
-        <TextView
+        <fragment
+            android:id="@+id/filterFragment"
+            android:name="com.example.wct.fragments.FilterFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/streetName"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            />
+            android:layout_height="match_parent" />
 
     </android.support.v7.widget.CardView>
 
-</fragment>
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/streetView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        app:cardBackgroundColor="@color/blue">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+            android:text="Street name"
+            android:layout_margin="10dp"
+            android:id="@+id/streetName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/crimeDetailsView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        app:cardBackgroundColor="@color/white"
+        android:translationZ="1dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="Street name"
+                android:layout_margin="10dp"
+                android:id="@+id/crimeDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

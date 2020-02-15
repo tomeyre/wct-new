@@ -1,11 +1,14 @@
 package com.example.wct.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 
 /**
@@ -82,4 +85,16 @@ public class ScreenUtils {
         float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return dp;
     }
+
+//    public Integer getStatusBarHeight(Activity activity){
+//        Rect rectangle = new Rect();
+//        Window window = activity.getWindow();
+//        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+//        int statusBarHeight = rectangle.top;
+//        int contentViewTop =
+//                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+//        int titleBarHeight= contentViewTop - statusBarHeight;
+//
+//        return titleBarHeight;
+//    }
 }

@@ -16,26 +16,27 @@ public class BitmapGenerator {
 
     public Bitmap getMarkerBitmapFromView(int mapColour, View v, Context context) {
         CardView cardView = v.findViewById(R.id.custom_marker_view);
+        CardView innerCardView = v.findViewById(R.id.innerCV);
         TextView textView = v.findViewById(R.id.txtCrimeCount);
         textView.setText(Integer.toString(mapColour));
 
-        if (mapColour <= 2) {
+        if (mapColour <= 4) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color1));
-        } else if (mapColour > 2 && mapColour <= 4) {
+        } else if (mapColour > 4 && mapColour <= 8) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color2));
-        } else if (mapColour > 4 && mapColour <= 6) {
+        } else if (mapColour > 8 && mapColour <= 12) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color3));
-        } else if (mapColour > 6 && mapColour <= 8) {
+        } else if (mapColour > 12 && mapColour <= 16) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color4));
-        } else if (mapColour > 8 && mapColour <= 10) {
+        } else if (mapColour > 16 && mapColour <= 20) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color5));
-        } else if (mapColour > 12 && mapColour <= 14) {
+        } else if (mapColour > 20 && mapColour <= 24) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color6));
-        } else if (mapColour > 14 && mapColour <= 16) {
+        } else if (mapColour > 24 && mapColour <= 28) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color7));
-        } else if (mapColour > 16 && mapColour <= 18) {
+        } else if (mapColour > 28 && mapColour <= 32) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color8));
-        } else if (mapColour > 18 && mapColour <= 20) {
+        } else if (mapColour > 32 && mapColour <= 36) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color9));
         } else {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color10));
