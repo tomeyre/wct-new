@@ -3,8 +3,8 @@ package com.example.wct.util;
 import android.content.Context;
 
 import com.example.wct.MapsActivity;
-import com.example.wct.pojo.Crime;
-import com.example.wct.pojo.Crimes;
+import com.example.wct.pojo.entity.Crime;
+import com.example.wct.pojo.singleton.Crimes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,8 @@ public class SortCrimesUtil {
                 sortedCrimes.add(crimeList);
             }else {
                 for (int i = 0; i < sortedCrimes.size(); i++){
-                    if(sortedCrimes.get(i).get(0).getLocation().getStreet().getName().equalsIgnoreCase(crime.getLocation().getStreet().getName())){
+                    if(sortedCrimes.get(i).get(0).getLocation().getLatitude().equals(crime.getLocation().getLatitude()) &&
+                    sortedCrimes.get(i).get(0).getLocation().getLongitude().equals(crime.getLocation().getLongitude())){
                         sortedCrimes.get(i).add(crime);
                         break;
                     }
@@ -31,6 +32,7 @@ public class SortCrimesUtil {
                         List<Crime> crimeList = new ArrayList<>();
                         crimeList.add(crime);
                         sortedCrimes.add(crimeList);
+                        break;
                     }
                 }
             }

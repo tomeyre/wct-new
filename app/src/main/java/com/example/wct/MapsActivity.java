@@ -1,39 +1,35 @@
 package com.example.wct;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wct.asynctasks.GetUKCrime;
-import com.example.wct.asynctasks.SearchLookup;
 import com.example.wct.broadcastRecievers.Network;
 import com.example.wct.broadcastRecievers.NetworkStateReceiver;
+import com.example.wct.fragments.BarChartFragment;
 import com.example.wct.fragments.FilterFragment;
-import com.example.wct.pojo.Crime;
-import com.example.wct.pojo.CrimeTotal;
-import com.example.wct.pojo.Crimes;
-import com.example.wct.pojo.CurrentAddress;
-import com.example.wct.pojo.Filter;
+import com.example.wct.fragments.StreetTotalFragmentWithColor;
+import com.example.wct.pojo.entity.Crime;
+import com.example.wct.pojo.singleton.CrimeYearStats;
+import com.example.wct.pojo.singleton.Crimes;
+import com.example.wct.pojo.singleton.CurrentAddress;
+import com.example.wct.pojo.singleton.Filter;
 import com.example.wct.util.AnimationUtil;
 import com.example.wct.util.CrimeTotals;
+import com.example.wct.util.DateUtil;
 import com.example.wct.util.GpsTrackerUtil;
 import com.example.wct.util.LatitudeAndLongitudeUtil;
 import com.example.wct.util.MapUpdate;
-import com.example.wct.util.ScreenUtils;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,7 +37,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +44,6 @@ import java.util.List;
 import static com.example.wct.util.ScreenUtils.convertDpToPixel;
 import static com.example.wct.util.ScreenUtils.convertPixelsToDp;
 import static com.example.wct.util.ScreenUtils.getScreenHeight;
-import static com.example.wct.util.ScreenUtils.getScreenWidth;
 import static com.example.wct.util.ScreenUtils.getStatusBarHeight;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -61,9 +55,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private CameraUpdate cameraUpdate;
     private Crimes crimes = Crimes.getInstance();
+    private CrimeYearStats crimeYearStats = CrimeYearStats.getInstance();
     private CurrentAddress currentAddress = CurrentAddress.getInstance();
     private CrimeTotals crimeTotals = CrimeTotals.getInstance();
     private LocationManager lm;
+
+    private int id;
 
     private LatitudeAndLongitudeUtil latLng = LatitudeAndLongitudeUtil.getInstance();
     private GpsTrackerUtil gpsTracker;
@@ -72,15 +69,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CardView crimeDetailsView;
     private CardView burgerMenu;
     private TextView streetName;
-    private TextView crimeDetails;
-    public View filterFragment;
-    private FilterFragment newFragment;
+    private FilterFragment filterFragment;
+    private StreetTotalFragmentWithColor streetMonthTotalsFrag;
+    private BarChartFragment barChartFragment;
+
+    private Button yearlyStatsBtn;
 
     private AnimationUtil animationUtil = new AnimationUtil();
 
     private Filter filter = Filter.getInstance();
-
-    private boolean mapReady = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +85,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         final FragmentManager fm = getSupportFragmentManager();
-        newFragment = new FilterFragment();
-        fm.beginTransaction().add(R.id.filterFragment, newFragment).commit();
+        filterFragment = new FilterFragment();
+        fm.beginTransaction().add(R.id.filterFragment, filterFragment).commit();
 
+        final FragmentManager fm2 = getSupportFragmentManager();
+        streetMonthTotalsFrag = new StreetTotalFragmentWithColor();
+        fm2.beginTransaction().add(R.id.streetMonthTotalsFrag, streetMonthTotalsFrag).commit();
+
+        final FragmentManager fm3 = getSupportFragmentManager();
+        barChartFragment = new BarChartFragment();
+        fm3.beginTransaction().add(R.id.barChartFragMonth, barChartFragment).commit();
 
         gpsTracker = new GpsTrackerUtil(this);
         latLng.setLatLng(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()));
@@ -98,22 +102,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         streetView = findViewById(R.id.streetView);
         crimeDetailsView = findViewById(R.id.crimeDetailsView);
         burgerMenu = findViewById(R.id.burgerMenu);
-        filterFragment = findViewById(R.id.filterFragment);
+
+        yearlyStatsBtn = findViewById(R.id.yearlyStatsBtn);
+
+        yearlyStatsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("ID :::::::::::::::::: " + id);
+                Intent intent = new Intent(MapsActivity.this, YearStats.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+        });
 
         burgerMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(newFragment.isFilterR1Visible()){
-                    animationUtil.shrink(burgerMenu, MapsActivity.this);
-                    newFragment.setFilterR1Invisible();
-                }else {
-                    animationUtil.expand(burgerMenu, MapsActivity.this);
-                    newFragment.getFilterR1().postDelayed(new Runnable() {
+                if (filterFragment.isFilterR1Visible()) {
+                    animationUtil.shrinkFilter(burgerMenu, MapsActivity.this);
+                    filterFragment.setFilterR1Invisible();
+                } else {
+                    animationUtil.expandFilter(burgerMenu, MapsActivity.this);
+                    filterFragment.getFilterR1().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            newFragment.setFilterR1Visible();
+                            filterFragment.setFilterR1Visible();
                         }
                     }, 300);
+                    if (streetView.getHeight() > 0) {
+                        animationUtil.animate(streetView, streetView.getHeight(), 0);
+                    }
                 }
             }
         });
@@ -122,19 +140,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 if (convertPixelsToDp(view.getHeight(), MapsActivity.this) == STREET_NAME_HEIGHT) {
-                    animationUtil.expandHeight(streetView, (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this), getScreenHeight(MapsActivity.this));
-                    animationUtil.expandHeight(crimeDetailsView, 0, getScreenHeight(MapsActivity.this) - (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this) -
+                    animationUtil.animate(streetView, (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this), getScreenHeight(MapsActivity.this));
+                    animationUtil.animate(crimeDetailsView, 0, getScreenHeight(MapsActivity.this) - (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this) -
                             getStatusBarHeight(MapsActivity.this));
                 } else {
-                    animationUtil.shrinkHeight(streetView, getScreenHeight(MapsActivity.this), (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this));
-                    animationUtil.expandHeight(crimeDetailsView, getScreenHeight(MapsActivity.this) - (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this) -
+                    animationUtil.animate(streetView, getScreenHeight(MapsActivity.this), (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this));
+                    animationUtil.animate(crimeDetailsView, getScreenHeight(MapsActivity.this) - (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this) -
                             getStatusBarHeight(MapsActivity.this), 0);
                 }
             }
         });
 
         streetName = findViewById(R.id.streetName);
-        crimeDetails = findViewById(R.id.crimeDetails);
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -159,19 +176,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         new MapUpdate().addNewMarkers(this, mMap);
     }
 
-    // Include the OnCreate() method here too, as described above.
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.getLatLng().latitude, latLng.getLatLng().longitude), 15f));
-        //updateMapUsingLatLon();
-        mapReady = true;
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 if (streetView.getHeight() > 0) {
-                    animationUtil.shrinkHeight(streetView, streetView.getHeight(), 0);
+                    animationUtil.animate(streetView, streetView.getHeight(), 0);
                 }
             }
         });
@@ -196,30 +210,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    //-----------------------------------------------------------code for marker selected
     @Override
     public boolean onMarkerClick(Marker marker) {
+        crimeYearStats.clear();
         List<Crime> markerCrimes = new ArrayList<>();
         for (int i = 0; i < crimes.getCrimes().size(); i++) {
             if (crimes.getCrimes().get(i).get(0).getLocation().getLongitude() == marker.getPosition().longitude &&
                     crimes.getCrimes().get(i).get(0).getLocation().getLatitude() == marker.getPosition().latitude) {
                 markerCrimes = crimes.getCrimes().get(i);
+                crimeYearStats.updateCrimes(crimes.getCrimes().get(i), DateUtil.getInstance().getMonth(), DateUtil.getInstance().getYear());
+                id = crimes.getCrimes().get(i).get(0).getLocation().getStreet().getId();
+                for (int j = 0; j < crimes.getCrimes().get(i).size(); j++) {
+                    crimeYearStats.updateTotals(crimes.getCrimes().get(i).get(j).getCategory());
+                }
                 break;
             }
         }
-
+        barChartFragment.customBarChartForTheMonth();
         crimeTotals.calculate(markerCrimes);
-        StringBuilder sb = new StringBuilder();
-        for (CrimeTotal crimeTotal : crimeTotals.getTotals()) {
-            sb.append(crimeTotal.getType() + crimeTotal.getCount() + "\n");
-        }
 
 
         streetName.setText(markerCrimes.get(0).getLocation().getStreet().getName().trim());
-        crimeDetails.setText(sb.toString());
         if (streetView.getHeight() == 0) {
-            animationUtil.expandHeight(streetView, 0, (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this));
+            animationUtil.animate(streetView, 0, (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this));
         }
+        streetMonthTotalsFrag.updateCrimeTotals();
         return false;
     }
 
@@ -249,4 +264,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public CardView getBurgerMenu() {
         return burgerMenu;
     }
+
+    @Override
+    public void onBackPressed() {
+        if (convertPixelsToDp(streetView.getHeight(), MapsActivity.this) > STREET_NAME_HEIGHT) {
+            animationUtil.animate(streetView, getScreenHeight(MapsActivity.this), (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this));
+            animationUtil.animate(crimeDetailsView, getScreenHeight(MapsActivity.this) - (int) convertDpToPixel(STREET_NAME_HEIGHT, MapsActivity.this) -
+                    getStatusBarHeight(MapsActivity.this), 0);
+        } else if (convertPixelsToDp(streetView.getHeight(), MapsActivity.this) == STREET_NAME_HEIGHT) {
+            animationUtil.animate(streetView, streetView.getHeight(), 0);
+        } else if (filterFragment.isFilterR1Visible()) {
+            animationUtil.shrinkFilter(burgerMenu, MapsActivity.this);
+            filterFragment.setFilterR1Invisible();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 }

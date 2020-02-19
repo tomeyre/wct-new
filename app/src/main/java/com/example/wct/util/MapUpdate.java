@@ -9,23 +9,17 @@ import android.widget.Toast;
 
 import com.example.wct.MapsActivity;
 import com.example.wct.R;
-import com.example.wct.pojo.Crime;
-import com.example.wct.pojo.Crimes;
-import com.example.wct.pojo.Filter;
+import com.example.wct.pojo.singleton.Crimes;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.heatmaps.Gradient;
-import com.google.maps.android.heatmaps.HeatmapTileProvider;
 import com.google.maps.android.heatmaps.WeightedLatLng;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
 
 public class MapUpdate {
 
@@ -85,9 +79,7 @@ public class MapUpdate {
         } else
             Toast.makeText(context.getApplicationContext(), "Crime statistics for " + dateUtil.getMonthAsString() + " " + dateUtil.getYear(),
                     Toast.LENGTH_LONG).show();
-        //crimesTitle.setText("Area Crime\n" + dateUtil.getMonthAsString() + "/" + dateUtil.getYear());
 
-        // Create the gradient.
         int[] colors = {
                 Color.rgb(102, 225, 0), // green
                 Color.rgb(255, 0, 0)    // red

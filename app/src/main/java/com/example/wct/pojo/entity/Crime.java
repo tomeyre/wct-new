@@ -1,4 +1,4 @@
-package com.example.wct.pojo;
+package com.example.wct.pojo.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -60,5 +60,15 @@ public class Crime {
 
     public String getMonth() {
         return month;
+    }
+
+    public void print(){
+        System.out.println("cat: " + category);
+        System.out.println("loc: " + locationType);
+        System.out.println("context: " + context);
+        System.out.println("pId: " + persistentId);
+        System.out.println("id: " + id);
+        System.out.println("locSubType: " + locationSubtype);
+        System.out.println("month: " + month);
     }
 }

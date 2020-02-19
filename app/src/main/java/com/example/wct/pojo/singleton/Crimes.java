@@ -1,4 +1,6 @@
-package com.example.wct.pojo;
+package com.example.wct.pojo.singleton;
+
+import com.example.wct.pojo.entity.Crime;
 
 import java.util.List;
 

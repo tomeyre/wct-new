@@ -1,10 +1,8 @@
-package com.example.wct.pojo;
+package com.example.wct.pojo.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GeocodeLookup {
 

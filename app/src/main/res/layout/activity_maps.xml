@@ -34,6 +34,7 @@
         android:id="@+id/streetView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:translationZ="3dp"
         android:layout_alignParentBottom="true"
         app:cardBackgroundColor="@color/blue">
 
@@ -62,21 +63,40 @@
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
         app:cardBackgroundColor="@color/white"
-        android:translationZ="1dp">
+        android:translationZ="4dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:text="Street name"
+            <fragment
+                android:layout_marginTop="10dp"
+                android:layout_alignParentTop="true"
+                android:id="@+id/streetMonthTotalsFrag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.example.wct.fragments.StreetTotalFragmentWithColor"/>
+
+            <fragment
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/yearlyStatsBtn"
+                android:id="@+id/barChartFragMonth"
+                android:layout_width="350dp"
+                android:layout_height="300dp"
+                android:name="com.example.wct.fragments.BarChartFragment"/>
+
+            <Button
+                android:padding="3dp"
                 android:layout_margin="10dp"
-                android:id="@+id/crimeDetails"
+                android:layout_alignParentBottom="true"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:background="@color/blue"
+                android:text="Yearly Stats"
+                android:id="@+id/yearlyStatsBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>
 

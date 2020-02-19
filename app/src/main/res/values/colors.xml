@@ -33,20 +33,21 @@
     <color name="green">#74DF00</color>
     <color name="yellow">#D7DF01</color>
 
-    <color name="one">#0d47a1</color>
-    <color name="two">#66bb6a</color>
-    <color name="three">#ed0000</color>
-    <color name="four">#2e7d32</color>
-    <color name="five">#bdbdbd</color>
-    <color name="six">#911eb4</color>
-    <color name="seven">#808080</color>
-    <color name="eight">#e6beff</color>
-    <color name="nine">#4fc3f7</color>
-    <color name="ten">#ffab91</color>
-    <color name="eleven">#a04000</color>
-    <color name="twelve">#ffeb3b</color>
-    <color name="thirteen">#aaffc3</color>
-    <color name="fourteen">#f032e6</color>
+    <color name="AntiSocialBehaviour">#ffd8b1</color>
+    <color name="PublicOrder">#9A6324</color>
+    <color name="BicycleTheft">#a9a9a9</color>
+    <color name="TheftFromThePerson">#f032e6</color>
+    <color name="VehicleCrime">#e6beff</color>
+    <color name="OtherTheft">#911eb4</color>
+    <color name="OtherCrime">#4363d8</color>
+    <color name="Burglary">#000075</color>
+    <color name="Shoplifting">#42d4f4</color>
+    <color name="CriminalDamageArson">#bfef45</color>
+    <color name="Drugs">#3cb44b</color>
+    <color name="Robbery">#ffe119</color>
+    <color name="PossessionOfWeapons">#f58231</color>
+    <color name="ViolentCrime">#e6194B</color>
+
 
     <color name="fifteen">#800000</color>
     <color name="sixteen">#aaffc3</color>

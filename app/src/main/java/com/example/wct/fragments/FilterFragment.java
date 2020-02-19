@@ -1,10 +1,7 @@
 package com.example.wct.fragments;
 
 import android.os.Bundle;
-import android.os.RecoverySystem;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +9,12 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.example.wct.MapsActivity;
 import com.example.wct.R;
 import com.example.wct.asynctasks.SearchLookup;
-import com.example.wct.pojo.Filter;
+import com.example.wct.pojo.singleton.Filter;
 import com.example.wct.util.AnimationUtil;
-
-import static com.example.wct.util.ScreenUtils.convertDpToPixel;
-import static com.example.wct.util.ScreenUtils.getScreenWidth;
 
 public class FilterFragment extends Fragment implements Switch.OnCheckedChangeListener {
 
@@ -199,7 +192,7 @@ public class FilterFragment extends Fragment implements Switch.OnCheckedChangeLi
     }
 
     private void shrinkMenu(){
-        animationUtil.shrink(((MapsActivity) getActivity()).getBurgerMenu(), getActivity());
+        animationUtil.shrinkFilter(((MapsActivity) getActivity()).getBurgerMenu(), getActivity());
         filterRl.setVisibility(View.GONE);
     }
 }

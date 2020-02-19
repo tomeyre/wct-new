@@ -1,10 +1,9 @@
 package com.example.wct.util;
 
-import com.example.wct.pojo.Crime;
+import com.example.wct.pojo.entity.Crime;
 import com.example.wct.pojo.CrimeTotal;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class CrimeTotals {

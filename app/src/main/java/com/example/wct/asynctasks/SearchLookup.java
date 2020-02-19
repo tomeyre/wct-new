@@ -5,15 +5,14 @@ import android.os.AsyncTask;
 
 import com.example.wct.MapsActivity;
 import com.example.wct.R;
-import com.example.wct.pojo.CurrentAddress;
-import com.example.wct.pojo.GeocodeLookup;
+import com.example.wct.pojo.singleton.CurrentAddress;
+import com.example.wct.pojo.entity.GeocodeLookup;
 import com.example.wct.util.HttpGet;
 import com.example.wct.util.Print;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchLookup extends AsyncTask<String, String, String> {

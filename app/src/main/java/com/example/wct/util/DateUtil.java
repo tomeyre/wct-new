@@ -62,6 +62,7 @@ public class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int month = calendar.get(Calendar.MONTH);
+        month++;
         String monthString;
 
         if(month == 1){

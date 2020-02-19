@@ -1,4 +1,4 @@
-package com.example.wct.pojo;
+package com.example.wct.pojo.singleton;
 
 import java.util.HashMap;
 

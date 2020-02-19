@@ -1,4 +1,4 @@
-package com.example.wct.pojo;
+package com.example.wct.pojo.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

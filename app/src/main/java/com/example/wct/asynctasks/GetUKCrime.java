@@ -3,8 +3,8 @@ package com.example.wct.asynctasks;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.example.wct.pojo.Crime;
-import com.example.wct.pojo.CurrentAddress;
+import com.example.wct.pojo.entity.Crime;
+import com.example.wct.pojo.singleton.CurrentAddress;
 import com.example.wct.util.DateUtil;
 import com.example.wct.util.HttpGet;
 import com.example.wct.util.LatitudeAndLongitudeUtil;
@@ -42,7 +42,13 @@ public class GetUKCrime extends AsyncTask<Boolean, String, Boolean> {
         new Print().printUrl(url);
 
         String json = httpGet.getJSONFromUrl(url);
-        if(json == null)return params[0];
+
+        int count = 0;
+        while(json == null && count < 3){
+            json = httpGet.getJSONFromUrl(url);
+            count++;
+            if(json == null && count == 3)return params[0];
+        }
 
         ObjectMapper mapper = new ObjectMapper();
         try {
